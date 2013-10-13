@@ -1,21 +1,23 @@
 ﻿@charset "utf-8";
 
-/*  
-     空间自定义内容 放到模板style 文件 头部  导入进去
+/*    用处:  只做web 练习用 不用于wordpress 空间CSS 自定义内容
+              空间自定义内容 放到模板style 文件 头部  导入进去
    
-       版本： 只做本地 练习 是测试版本
-              不于wordpress 空间 css 同步
-
+       版本： 本地
        find："key-word=key-word=需要修改"  这些地方不完善
    up date: 2013-6-17
 
    up date: 2013-8-9  
-   我自己建个 web-front
-   这里先放到 公共的CSS  lib
+   我自己建个 web-front 做联系
+   这里先放到 公共的CSS 
 
 
    ---------------------------------------------------------------------
- 
+   css   分为 
+   1. 布局 效果 css
+   2. 测试临时 使用的css 
+   3. 完成的页面 要和练习 测试的页面 分开 
+      有冲突的 依照具体情况 再修改
   现有 base CSS 内容
   1.CSS reset
   2.Float a 锚 设置
@@ -138,7 +140,7 @@ a:active { color: yellow; }
 
 /*-----8.Absolute Center---- copy----*/
 
-
+/*
 .abs-ctr{
       display:table;
       height:100%;
@@ -159,9 +161,9 @@ a:active { color: yellow; }
     margin:0 auto;
      }
 .l-vam {
-  vertical-align:middle;  /*垂直居中 如果有浮动 会失效 */
+  vertical-align:middle;  垂直居中 如果有浮动 会失效 
 }     
-
+--*/
  /*  9.input  botton */    
  .btn-submit {     /*  红色 */   
     background: none repeat scroll 0 0 #D94A4A;
@@ -228,7 +230,7 @@ blockquote p {
     display: inline;
 }
 
-/*13.polaroid img */
+/*13.polaroid img 拍立得相片效果   */
 img.polaroid {
     background:#000; /*Change this to a background image or remove*/
     border:solid #fff;

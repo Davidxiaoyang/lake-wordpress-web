@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>相册效果</title>
+	  <meta charset="UTF-8">
+<link href="../libs/lake-base.css" rel="stylesheet" type="text/css">
+
+<script src="../libs/jquery/jquery-1.7.1.js"  type="text/javascript"></script>	
+<script type="text/javascript">
+$(function(){
+
+	
+	//var a=$(".limg li").eq(1).offset().left-$("#div1").offset().left
+// 布局转换
+	for(var i=0;i<$(".limg li").length;i++){
+		if(i>7){
+			$(".limg li").eq(i).css({
+				left:$(".limg li").eq(i%8).position().left,
+				top:$(".limg li").eq(8).position().top,
+				opacity:0
+			})
+		}else{
+			$(".limg li").eq(i).css({
+				left:$(".limg li").eq(i).position().left,
+				top:$(".limg li").eq(i).position().top
+			})
+		}
+	}
+	$(".limg li").css('position',"absolute")
+
+
+	$(".next").click(function(){ next() })
+	$(".prev").click(function(){ prev() })
+
+	var i=0 //计数 一轮操作12个 img
+	var start=0 // 现在 第一个li 的 index
+
+	function next(){
+			var time=setInterval(function(){
+			if(i%12<4){ // 第一行 隐藏 归零
+				$(".limg li").eq(start).animate({top:'-198px',opacity:"0"})
+			}
+			if(i%12>3 && i%12<=7){    //第二行去第一行
+			 	$(".limg li").eq(start).animate({top:'0px'})
+			 }
+			if(i%12>7){
+				$(".limg li").eq(start).animate({top:'198px',opacity:"1"})
+			} 
+			i++
+			start++
+			
+			if(i%13>11){
+				clearInterval(time)
+				start=start-8
+				i=0
+				console.log(start)
+
+			}
+				
+			}
+			,50)
+ 	}
+
+ 	function prev(){
+ 		if(start==0)return false
+			var _start=start+7  // 最后一个 img 的 序列号
+			console.log(_start)
+			var time=setInterval(function(){
+				if(i%12<4){ // 第二行 扔到第三行去 并且隐藏起来
+					$(".limg li").eq(_start).animate({top:'396px',opacity:"0"})
+				};
+				if(i%12>3 && i%12<=7){    //第一行 扔去 第二行
+			 		$(".limg li").eq(_start).animate({top:'198px'})
+			 	}
+			 	if(i%12>7){  // 把第 0行 扔到 第一行去
+					$(".limg li").eq(_start).animate({
+						top:'0px',opacity:"1"
+					})
+				}
+				 i++
+				_start--
+				if(i%13>11){
+					clearInterval(time)
+					start=_start+1
+					i=0
+					console.log(_start+"_start----start"+start)
+
+				}
+
+			},50)
+	}
+		
+
+})
+
+
+
+</script>
+<style>
+
+#div1{
+	width:800px;
+	height:400px;
+	position:relative;
+	margin:100px auto 0 auto;
+	
+
+
+}
+.limg{
+	height:400px;
+	position:relative;
+	overflow:hidden;
+}
+.limg li{
+	float:left;
+	width:190px;
+	height:190px;
+	background:url("../img/bg_thumb.jpg");
+	margin:4px;
+}
+.limg li img{
+	opacity:0.8;
+}
+.limg li img:hover{
+	opacity:1;
+}
+
+#goup{
+	position:absolute;
+	right:-80px;
+	height:70px;
+	top:50%;
+	margin-top:-35px;
+	width:40px;
+}
+.prev{
+	background:url(../img/page.png) 0 0 no-repeat;
+	height:25px;
+	display:block;
+	opacity:0.7;
+	margin-bottom:20px;
+}
+.next{
+	background:url(../img/page.png) 0 -25px no-repeat;
+	height:25px;
+	display:block;
+	opacity:0.7;
+}
+#goup a:hover{
+	opacity:1;
+	cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+<div id="div1">
+
+	<ul class="limg">
+		<li><img src="../img/01.jpg"></li>
+		<li><img src="../img/02.jpg"></li>
+		<li><img src="../img/03.jpg"></li>
+		<li><img src="../img/04.jpg"></li>
+		<li><img src="../img/05.jpg"></li>
+		<li><img src="../img/06.jpg"></li>
+		<li><img src="../img/07.jpg"></li>
+		<li><img src="../img/08.jpg"></li>
+		<li><img src="../img/09.jpg"></li>
+		<li><img src="../img/10.jpg"></li>
+		<li><img src="../img/11.jpg"></li>
+		<li><img src="../img/12.jpg"></li>
+		<li><img src="../img/13.jpg"></li>
+		<li><img src="../img/14.jpg"></li>
+		<li><img src="../img/15.jpg"></li>
+		<li><img src="../img/16.jpg"></li>
+		<li><img src="../img/17.jpg"></li>
+		<li><img src="../img/18.jpg"></li>
+		<li><img src="../img/19.jpg"></li>
+		<li><img src="../img/20.jpg"></li>
+	</ul>
+	<div id="goup">
+    	<a class="prev"></a>
+    	<a class="next"></a>
+    </div>
+
+</div>
+
+</body>
+</html>

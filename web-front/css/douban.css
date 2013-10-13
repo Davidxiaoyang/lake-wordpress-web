@@ -1,6 +1,9 @@
 ﻿@charset "utf-8";
+@import url(http://fonts.googleapis.com/css?family=Fauna+One&subset=latin,latin-ext);
+/*
+github引用不到 就不用这个了
 @import url("./douban-base-api.css");
-
+*/
 
 #fm-hear{
   margin:0 auto;
@@ -281,4 +284,14 @@ none repeat scroll 0 0 rgba(198, 211, 205, 0.5) 本身颜色
     border-radius: 25px 25px 25px 25px;
 
 }
+
+
+.faun{
+  font-size:18px;
+  font-family: 'Fauna One', serif;
+}
+.dark_shadow{
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
 

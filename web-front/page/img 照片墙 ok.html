@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+      <title>jq模板</title>
+	  <meta charset="UTF-8">
+<link href="lake-base.css" rel="stylesheet" type="text/css">
+<script src="jquery-1.7.1.js"  type="text/javascript"></script>	  
+ 
+<style type="text/css">
+img {
+	width:120px;
+}
+#div1{
+	width:580px;
+	margin:20px auto;
+	border:1px solid;
+}
+#ul1 li{
+	float:left;
+	margin:10px;
+}
+.active{
+	border:1px dashed red;
+}
+.now{
+	border:none;
+}
+</style>
+
+<script type="text/javascript">
+$(function(){
+	var oli=$("li")
+	for(var i=0;i<oli.length;i++){
+	
+    	oli.eq(i).css({
+    		left:parseInt(oli.eq(i).offset().left.toFixed(0)),
+    		top:parseInt(oli.eq(i).offset().top.toFixed(0)) 
+       	})
+    }
+  	oli.css("position","absolute")//position 最后设置 应为我没用数组 来存 
+  	// 变成 局部变量就ok var bool=false; 放这里有bug  
+  	var zindex=1
+	var allcss=[]
+	for(i=0;i<oli.length;i++)
+	{
+		allcss[i]={left: oli.eq(i).css('left'), top: oli.eq(i).css('top'),number:i};
+	}
+
+	function setDrag(obj){	
+		var bool=false;
+		obj.mousedown(function(e){
+			obj.css("z-index",zindex)
+		 	bool=true;
+			if(!bool){
+				return false
+			}
+			var difx=e.pageX-parseInt(obj.css('left'))
+			var dify=e.pageY-parseInt(obj.css('top'))
+
+			
+			backx=parseInt(obj.css('left'))
+			backy=parseInt(obj.css('top'))
+				
+			$(document).mousemove(function(e){
+				if(!bool)
+					return false;
+				obj.css({
+					left:e.pageX-difx+'px',
+					top:e.pageY-dify+'px'
+				})
+
+				for(var i=0;i<$('li').length;i++)
+				{
+					$('li').eq(i).attr('class','')
+				}
+
+				var mixnear=near(obj)
+				if(mixnear){ 
+					mixnear.attr('class','active')
+					  nearc={
+						left:mixnear.css('left'),
+						top:mixnear.css('top')
+					}
+					//console.log(nearc["left"])
+				}
+		
+				return false	
+
+			})
+			$(document).mouseup(function(event){
+                 bool=false
+                 obj.css("z-index",zindex++)
+                 
+                 if(!near(obj)){
+	                 var la=obj.index()	
+	                 obj.animate( allcss[allcss[la].number] )
+	                 $(this).unbind("mouseup") 
+                 }else{
+              		  var a=obj.index();//没问题
+              		 
+              		  var b=near(obj).index()//ok 返回 被 碰到的目标
+              		    
+                 	  obj.animate( allcss[allcss[b].number],"slow")
+			    near(obj).animate( allcss[allcss[a].number],"slow")// 被碰到的 目标
+			    	                 var c=0
+                 	 c=allcss[a].number
+                 	 allcss[a].number=allcss[b].number
+                 	 allcss[b].number=c
+                 	 $(this).unbind("mouseup")// 造成的抽筋
+                 } 
+ event.stopPropagation();
+
+console.log(allcss)
+                 
+               
+			})
+			return false
+		})
+	}
+
+
+
+	for(var i=0;i<oli.length;i++){
+		setDrag( $('li').eq(i) )
+	}
+
+//碰撞 检测
+function touchText(obj1,obj2){
+
+		var l1=obj1.offset().left
+		var r1=obj1.offset().left+obj1.width();
+		var t1=obj1.offset().top;
+		var b1=obj1.offset().top+obj1.height();
+		
+		var l2=obj2.offset().left
+		var r2=obj2.offset().left+obj1.width();
+		var t2=obj2.offset().top;
+		var b2=obj2.offset().top+obj1.height();
+      // l1==l2 来排除自身 ？？
+		if(r1<l2 || l1>r2 || b1<t2 || t1>b2){
+		
+				return false;
+		}
+		 else{
+				return true;
+		 }
+		 
+
+}
+
+// 算计距离
+function mathDistance(obj1,obj2){
+
+	var a=obj1.offset().left-obj2.offset().left;
+	var b=obj1.offset().top-obj2.offset().top;
+		
+	return Math.sqrt(a*a+b*b)-0.1;// 故意忽略 排除自身
+}
+
+function near(obj){
+
+		var iMin=99999
+		var iMinIndex=-1
+
+
+	for(var i=0;i<$('li').length;i++){
+
+		if(obj.index()==$("li").eq(i).index())continue;
+
+		if ( touchText(obj,$('li').eq(i)) ){
+		     	
+		    var number=mathDistance(obj,$('li').eq(i))
+		     	//if(number<0)continue // 故意忽略 排除自身
+
+			if(iMin>number){
+			        	iMin=number
+			        	iMinIndex=i
+			        //	var nearx=parseInt(obj.eq(i).css('left'))
+			        //	var neary=parseInt(obj.eq(i).css('top'))
+			 }
+		}
+	}
+
+        if(iMinIndex==-1){
+			return null;
+		}
+		else{
+			return $('li').eq(iMinIndex);
+		}   
+	
+}
+/*
+var oUl=document.getElementById('ul1');
+	var aLi=oUl.getElementsByTagName('li');
+	var a=aLi[1].style.left
+	console.log(aLi[1].offsetLeft)
+
+*/
+	
+
+})
+
+
+</script>
+</head>
+
+<body>
+<div id="div1">
+    <ul id="ul1">
+		<li><img src="1.jpg"/></li>
+		<li><img src="2.jpg"/></li>
+		<li><img src="3.jpg"/></li>
+		<li><img src="4.jpg"/></li>
+		<li><img src="1.jpg"/></li>
+		<li><img src="2.jpg"/></li>
+		<li><img src="3.jpg"/></li>
+		<li><img src="4.jpg"/></li>
+		<li><img src="3.jpg"/></li>
+		<li><img src="1.jpg"/></li>
+		<li><img src="2.jpg"/></li>
+		<li><img src="1.jpg"/></li>
+    </ul>
+	
+</div>
+
+</body>
+</html>

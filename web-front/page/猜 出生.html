@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+      <title>jq模板</title>
+	  <meta charset="UTF-8">
+<script src="jquery-1.7.1.js"  type="text/javascript"></script>	  
+ 
+<style type="text/css">
+#a{
+	margin:30px auto;
+	background:#ccc;
+
+	width:400px;
+	height:400px;
+	text-align:center;
+}
+
+ </style>
+<script type="text/javascript">
+$(function(){
+/*	
+	 var time=0
+	 var max=100   //上区间
+	 var min=0    // 下区间
+	 $("#b").attr('value',50)
+	 var nowValue=parseInt($("#b").attr('value'))  //当前的 数字
+
+
+	 $("#big").click(function(){
+	 	if(nowValue<0&&nowValue>100)return false
+
+	 	max=parseInt($("#b").attr('value'))
+	 	getNumber()
+	 })
+	 $("#small").click(function(){
+	 	if(nowValue<0&&nowValue>100)return false
+		
+        min=parseInt($("#b").attr('value'))
+        getNumber()
+	 })
+	function getNumber(){
+		time++
+		nowValue=Math.floor((max-min)/2+min)  
+		$("#b").attr('value',nowValue)
+	 	console.log(max+"上区间")
+		console.log(min+"下区间")
+		console.log(time+"第几次")
+	}
+
+
+
+*/
+     var n                   // n就是 当前日期
+	 var stratDay=new Date(0) //开始 日期 下区间
+	 var endDay  =new Date()  // 结束 日期 上区间
+	// var difDay  =new Date(1)-new Date(0) // 相差天数
+//parseInt( )
+
+	// 天数
+/*
+	 var max=showDay(startDay)   // 上区间 这里是格式化后的 
+	 var min=showDay(endDay)  // 下区间    不用这里
+*/   
+	 function init(){                 // 设置日期
+	 	difDay(stratDay,endDay)
+
+		var _g=new Date(n*1000 * 3600 * 24) 
+
+		$("#b").attr('value',showDay(_g))
+	 }
+	 init()
+	function showDay(num){
+		return num.getFullYear() + "年" + (num.getMonth() + 1) + "月" + num.getDate() + "日"
+	}
+	function difDay(strat,end){
+		
+		n=parseInt( ( (end-strat)/2+strat.getTime() )/(1000 * 3600 * 24) ) // 当天
+
+	}	
+
+	$("#big").click(function(){ // 变小  先更新 在计算
+	 	
+	 	endDay=new Date(n*1000 * 3600 * 24)    // 更新上 区间
+	 	init()             
+	 	console.log(endDay+"上区间--变小--下区间"+stratDay)
+
+	 })
+	 $("#small").click(function(){
+
+		stratDay=new Date(n*1000 * 3600 * 24)
+		init()
+		console.log(endDay+"上区间--变大--下区间"+stratDay)
+
+	 })
+
+
+})
+
+</script>
+</head>
+
+<body>
+<div id="a">
+	<p> 猜你的生日</p>
+	<input id="b" type="text" value>
+	<br>
+	<input id="big" type="button" value="大了">
+	<input id="small" type="button" value="小了">
+
+</div>
+
+
+
+</body>
+</html>
